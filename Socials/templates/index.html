@@ -114,6 +114,28 @@
         }
       }
     </style>
+    <style>
+      .card1 {
+        margin-left: 660px; 
+        margin-bottom:30px;
+      }
+      .app-component-textinput {
+        color: white;
+        cursor: auto;
+        padding: 0.5rem 1rem;
+        border-color: white;
+        border-width: 1px;
+        border-radius: 4px;
+        background-color: transparent;
+        margin-right: 23px;
+        flex:1;
+    }
+    #usernameForm {
+      display: flex; /* Use flexbox */
+      justify-content: space-between; /* Space between input and button */
+      align-items: center; /* Center items vertically */
+  }
+    </style>
   </head>
   <body>
     <link rel="stylesheet" href="./style.css" />
@@ -205,15 +227,14 @@
                 >
                   <path
                     d="M925.714 233.143c-25.143 36.571-56.571 69.143-92.571 95.429 0.571 8 0.571 16 0.571 24 0 244-185.714 525.143-525.143 525.143-104.571 0-201.714-30.286-283.429-82.857 14.857 1.714 29.143 2.286 44.571 2.286 86.286 0 165.714-29.143 229.143-78.857-81.143-1.714-149.143-54.857-172.571-128 11.429 1.714 22.857 2.857 34.857 2.857 16.571 0 33.143-2.286 48.571-6.286-84.571-17.143-148-91.429-148-181.143v-2.286c24.571 13.714 53.143 22.286 83.429 23.429-49.714-33.143-82.286-89.714-82.286-153.714 0-34.286 9.143-65.714 25.143-93.143 90.857 112 227.429 185.143 380.571 193.143-2.857-13.714-4.571-28-4.571-42.286 0-101.714 82.286-184.571 184.571-184.571 53.143 0 101.143 22.286 134.857 58.286 41.714-8 81.714-23.429 117.143-44.571-13.714 42.857-42.857 78.857-81.143 101.714 37.143-4 73.143-14.286 106.286-28.571z"
-                  ></path></svg
-                ><svg
+                  ></path></svg><svg
                   viewBox="0 0 877.7142857142857 1024"
                   class="home-icon06 socialIcons"
                 >
                   <path
                     d="M585.143 512c0-80.571-65.714-146.286-146.286-146.286s-146.286 65.714-146.286 146.286 65.714 146.286 146.286 146.286 146.286-65.714 146.286-146.286zM664 512c0 124.571-100.571 225.143-225.143 225.143s-225.143-100.571-225.143-225.143 100.571-225.143 225.143-225.143 225.143 100.571 225.143 225.143zM725.714 277.714c0 29.143-23.429 52.571-52.571 52.571s-52.571-23.429-52.571-52.571 23.429-52.571 52.571-52.571 52.571 23.429 52.571 52.571zM438.857 152c-64 0-201.143-5.143-258.857 17.714-20 8-34.857 17.714-50.286 33.143s-25.143 30.286-33.143 50.286c-22.857 57.714-17.714 194.857-17.714 258.857s-5.143 201.143 17.714 258.857c8 20 17.714 34.857 33.143 50.286s30.286 25.143 50.286 33.143c57.714 22.857 194.857 17.714 258.857 17.714s201.143 5.143 258.857-17.714c20-8 34.857-17.714 50.286-33.143s25.143-30.286 33.143-50.286c22.857-57.714 17.714-194.857 17.714-258.857s5.143-201.143-17.714-258.857c-8-20-17.714-34.857-33.143-50.286s-30.286-25.143-50.286-33.143c-57.714-22.857-194.857-17.714-258.857-17.714zM877.714 512c0 60.571 0.571 120.571-2.857 181.143-3.429 70.286-19.429 132.571-70.857 184s-113.714 67.429-184 70.857c-60.571 3.429-120.571 2.857-181.143 2.857s-120.571 0.571-181.143-2.857c-70.286-3.429-132.571-19.429-184-70.857s-67.429-113.714-70.857-184c-3.429-60.571-2.857-120.571-2.857-181.143s-0.571-120.571 2.857-181.143c3.429-70.286 19.429-132.571 70.857-184s113.714-67.429 184-70.857c60.571-3.429 120.571-2.857 181.143-2.857s120.571-0.571 181.143 2.857c70.286 3.429 132.571 19.429 184 70.857s67.429 113.714 70.857 184c3.429 60.571 2.857 120.571 2.857 181.143z"
-                  ></path></svg
-                ><svg
+                  ></path></svg>
+                  <svg
                   viewBox="0 0 602.2582857142856 1024"
                   class="home-icon08 socialIcons"
                 >
@@ -261,87 +282,103 @@
                   </span>
                 </span>
               </span>
-              <form method="POST">
+              
+              <form id="usernameForm" method="post" action="{% url 'fetch_instagram' %}">
+                {% if user.is_authenticated%}
                 {% csrf_token %}
-                {{ form.as_p }}
-                <div class="home-btn-group">
-                  <button class="buttonFilled" id="searchButton">Search</button>
-                    <input
-                      type="text"
-                      placeholder="Enter Username"
-                      class="app-component-textinput input"
-                      id="usernameInput"
-                    />
-                  </div>
-              </form>
+                {% for field in form %}
+                    <div class="home-btn-group">
+                        {% if field.name == "username" %}
+                            <input name="{{ field.name }}" type="text" placeholder="Enter Username" class="app-component-textinput input" id="id_username">
+                        {% else %}
+                            {{ field }}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <button class="buttonFilled" id="searchButton" type="submit">Search</button>
+            </form>
+            {%else%}
+              <form id="usernameForm" method="post" action="{% url 'fetch_instagram' %}">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="home-btn-group">
+                      
+                    </div>
+                {% endfor %}
+               
+                {%endif%}
+            </form>
               </div>
             </div>
           </div>
         </div>
-      {% if instagram_user %}
-  <div id="accountdetails">
-        <div id="account-details"><h4 style="font-weight: 700;font-family: 'Arial', sans-serif; /* Choose a suitable font-family */
-          font-size: 24px;  color: #342E37; text-align: center; margin-top: 4rem; margin-bottom: 6rem;">Account Details</h4></div>
-        <div class="card2" ><div class="gauge">
-          <div class="gauge__body">
-            <div class="gauge__fill"></div>
-            <div class="gauge__cover"></div>
-          </div>
+        {% if instagram_user %}
+    <div id="accountdetails">
+        <div id="account-details">
+            <h4 style="font-weight: 700;font-family: 'Arial', sans-serif; /* Choose a suitable font-family */
+                font-size: 24px;  color: #342E37; text-align: center; margin-top: 4rem; margin-bottom: 6rem;">Account Details</h4>
         </div>
         <div class="card1">
           <div class="flex-container">
-            <img class= "avatar" src="{% static 'profile.jpg' %}" alt="Profile Image">
-              <span class="username" id="displayedUsername">@updatedUsername</span>
+            <img class= "avatar" src="{{ instagram_user.profilePicUrlHD }}" alt="Profile Image">
+              
           </div>
       </div>
-    </div>
+
         <div class="container">
-          <div class="leftcard">
-          <!-- Follower Count Card -->
-          <div class="card left-card">
-              <div class="profile-info">
-                  <span class="label">Follower Count: {{ instagram_user.followers_count }}</span> <span id="followerCount">0</span>
-              </div>
-          </div>
-      
-          <!-- Following Count Card -->
-          <div class="card left-card">
-              <div class="profile-info">
-                  <span class="label">Following Count: {{ instagram_user.follows_count }}</span> <span id="followingCount">0</span>
-              </div>
-          </div>
-      
-          <!-- Post Count Card -->
-          <div class="card left-card">
-              <div class="profile-info">
-                  <span class="label">Post Count:</span> {{ instagram_user.posts_count }} <span id="postCount">0</span>
-              </div>
-          </div>
+            <div class="leftcard">
+                <div class="card left-card">
+                    <div class="profile-info">
+                        <span class="label">Follower Count: </span><span id="followersCount">{{instagram_user.followersCount}}</span>
+                    </div>
+                </div>
+                <div class="card left-card">
+                    <div class="profile-info">
+                        <span class="label">Following Count: </span><span id="followsCount">{{ instagram_user.followsCount }}</span>
+                    </div>
+                </div>
+                <div class="card left-card">
+                    <div class="profile-info">
+                        <span class="label">Post Count: </span><span id="postCount">{{ instagram_user.postsCount }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rightcard">
+                <div class="card right-card">
+                    <div class="profile-info">
+                        <span class="label">Default Profile Bio:</span><span id="profileBio">{{ instagram_user.fullName }}<br><span class="label"> Profile ID:</span></span><span id="profileBio">{{ instagram_user.id }}</span>
+                        <span id="profileBio">{{ instagram_user.biography }}</span>
+                    </div>
+                </div>
+                <div class="card right-card">
+                    <div class="profile-info">
+                        <span class="label">Verified:</span><span id="verified">{{ instagram_user.verified }}</span>
+                    </div>
+                </div>
+                <div class="card right-card">
+                    <div class="profile-info">
+                        <span class="label">Private Account:</span><span id="private">{{ instagram_user.private }}</span>
+                    </div>
+                </div>
+            </div>
         </div>
-          <!-- Default Profile Bio Card -->
-          <div class="rightcard">
-          <div class="card right-card">
-              <div class="profile-info">
-                  <span class="label">Default Profile Bio:</span><img src="{{ instagram_user.profile_pic_url_hd }}" class="rounded mx-auto d-block" alt="..."> <span id="profileBio"></span>
-              </div>
-          </div>
+    </div>
+    {% endif %}
+
+    <script>
       
-          <!-- Date of Joining Card -->
-          <div class="card right-card">
-              <div class="profile-info">
-                  <span class="label">Date of Joining:</span>{{ instagram_user.date_joined }} <span id="dateOfJoining"></span>
-              </div>
-          </div>
-      
-          <!-- Private Account Card -->
-          <div class="card right-card">
-              <div class="profile-info">
-                  <span class="label">Private Account:</span> {% if instagram_user.is_private %}Yes{% else %}No{% endif %} <span id="privateaccount">False</span>
-              </div>
-          </div>
-      </div>
-  </div>
-  {% endif %}
+        fetch('/get_csrf_token')
+    .then(response = response.json())
+    .then(data = {
+        const csrfToken = data.csrfToken;
+
+        document.getElementById('usernameForm').innerHTML += `<input type="hidden" name="csrfmiddlewaretoken" value="${csrfToken}">`;
+    })
+    .catch(error = {
+        console.error('Error:', error);
+    });
+    </script>
+        
       <div id="features"></div>
         <div class="home-features" >
           <div class="featuresContainer">
@@ -629,15 +666,13 @@
                 >
                   <path
                     d="M925.714 233.143c-25.143 36.571-56.571 69.143-92.571 95.429 0.571 8 0.571 16 0.571 24 0 244-185.714 525.143-525.143 525.143-104.571 0-201.714-30.286-283.429-82.857 14.857 1.714 29.143 2.286 44.571 2.286 86.286 0 165.714-29.143 229.143-78.857-81.143-1.714-149.143-54.857-172.571-128 11.429 1.714 22.857 2.857 34.857 2.857 16.571 0 33.143-2.286 48.571-6.286-84.571-17.143-148-91.429-148-181.143v-2.286c24.571 13.714 53.143 22.286 83.429 23.429-49.714-33.143-82.286-89.714-82.286-153.714 0-34.286 9.143-65.714 25.143-93.143 90.857 112 227.429 185.143 380.571 193.143-2.857-13.714-4.571-28-4.571-42.286 0-101.714 82.286-184.571 184.571-184.571 53.143 0 101.143 22.286 134.857 58.286 41.714-8 81.714-23.429 117.143-44.571-13.714 42.857-42.857 78.857-81.143 101.714 37.143-4 73.143-14.286 106.286-28.571z"
-                  ></path></svg
-                ><svg
+                  ></path></svg><svg
                   viewBox="0 0 877.7142857142857 1024"
                   class="home-icon12 socialIcons"
                 >
                   <path
                     d="M585.143 512c0-80.571-65.714-146.286-146.286-146.286s-146.286 65.714-146.286 146.286 65.714 146.286 146.286 146.286 146.286-65.714 146.286-146.286zM664 512c0 124.571-100.571 225.143-225.143 225.143s-225.143-100.571-225.143-225.143 100.571-225.143 225.143-225.143 225.143 100.571 225.143 225.143zM725.714 277.714c0 29.143-23.429 52.571-52.571 52.571s-52.571-23.429-52.571-52.571 23.429-52.571 52.571-52.571 52.571 23.429 52.571 52.571zM438.857 152c-64 0-201.143-5.143-258.857 17.714-20 8-34.857 17.714-50.286 33.143s-25.143 30.286-33.143 50.286c-22.857 57.714-17.714 194.857-17.714 258.857s-5.143 201.143 17.714 258.857c8 20 17.714 34.857 33.143 50.286s30.286 25.143 50.286 33.143c57.714 22.857 194.857 17.714 258.857 17.714s201.143 5.143 258.857-17.714c20-8 34.857-17.714 50.286-33.143s25.143-30.286 33.143-50.286c22.857-57.714 17.714-194.857 17.714-258.857s5.143-201.143-17.714-258.857c-8-20-17.714-34.857-33.143-50.286s-30.286-25.143-50.286-33.143c-57.714-22.857-194.857-17.714-258.857-17.714zM877.714 512c0 60.571 0.571 120.571-2.857 181.143-3.429 70.286-19.429 132.571-70.857 184s-113.714 67.429-184 70.857c-60.571 3.429-120.571 2.857-181.143 2.857s-120.571 0.571-181.143-2.857c-70.286-3.429-132.571-19.429-184-70.857s-67.429-113.714-70.857-184c-3.429-60.571-2.857-120.571-2.857-181.143s-0.571-120.571 2.857-181.143c3.429-70.286 19.429-132.571 70.857-184s113.714-67.429 184-70.857c60.571-3.429 120.571-2.857 181.143-2.857s120.571-0.571 181.143 2.857c70.286 3.429 132.571 19.429 184 70.857s67.429 113.714 70.857 184c3.429 60.571 2.857 120.571 2.857 181.143z"
-                  ></path></svg
-                ><svg
+                  ></path></svg><svg
                   viewBox="0 0 602.2582857142856 1024"
                   class="home-icon14 socialIcons"
                 >

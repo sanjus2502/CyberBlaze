@@ -20,50 +20,57 @@ function setGaugeValue(gauge, value) {
     // }
 }
 
-// Example usage:
+
 setGaugeValue(gaugeElement, 0.3);
 
 
-const FollowerCount = 0;
-const FollowingCount = 0;
-const PostCount = 0;
-const defaultProfileBio = '';
-const dateOfJoining = '';
-const privateaccount ='False';
-// Update HTML content with JavaScript variables
-document.getElementById('followerCount').innerText = FollowerCount;
-document.getElementById('followingCount').innerText = FollowingCount;
-document.getElementById('postCount').innerText = PostCount;
-document.getElementById('profileBio').innerText = defaultProfileBio;
-document.getElementById('dateOfJoining').innerText = dateOfJoining;
-document.getElementById('privateaccount').innerText = privateaccount;
+then(response => response.json())
+.then(data => {
 
+    const instagramUser = data.instagram_user;
+    document.getElementById('followerCount').innerText = instagramUser.followers_count;
+    document.getElementById('followingCount').innerText = instagramUser.follows_count;
+    document.getElementById('postCount').innerText = instagramUser.posts_count;
+    document.getElementById('profileBio').innerText = instagramUser.biography;
+    document.getElementById('dateOfJoining').innerText = instagramUser.date_joined;
+    document.getElementById('privateaccount').innerText = instagramUser.is_private ? 'Yes' : 'No';
+})
+.catch(error => {
+    console.error('Error:', error);
+});
 
 
 document.addEventListener('DOMContentLoaded', function() {
-    const searchButton = document.querySelector('.buttonFilled');
-    const usernameInput = document.querySelector('.app-component-textinput');
+    const searchButton = document.querySelector('.buttonFilled'); 
+    const usernameInput = document.querySelector('.app-component-textinput'); 
 
-    searchButton.addEventListener('click', function() {
-        const username = usernameInput.value;
-        const usernameDisplay = document.querySelector('.username-display');
-        usernameDisplay.textContent = username;
+    searchButton.addEventListener('click', function(event) {
+        event.preventDefault(); 
+        const username = usernameInput.value.trim(); 
+        if (username !== '') { 
+            
+            const usernameDisplay = document.querySelector('.username-display');
+            usernameDisplay.textContent = username;
+        } else {
+            
+            alert('Please enter a username.');
+        }
     });
 });
 
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Get all navigation links
+  
     const navLinks = document.querySelectorAll('.home-links span');
   
-    // Add click event listener to each navigation link
+    
     navLinks.forEach(function(link) {
       link.addEventListener('click', function() {
-        // Get the target section id from the data-target attribute
+       
         const targetId = this.getAttribute('data-target');
-        // Find the target section by its id
+      
         const targetSection = document.getElementById(targetId);
-        // Scroll to the target section smoothly
+     
         targetSection.scrollIntoView({ behavior: 'smooth' });
       });
     });

@@ -20,12 +20,15 @@ from . import views
 from django.conf import settings
 from django.conf.urls.static import static
 
+
 urlpatterns = [
     
     path('login/', views.login, name='login'),
     path('', views.homepage),
     path('register/', views.register, name='register'),
     path('logout/', views.logout, name='logout'),
+    path('fetch_instagram/', views.fetch_instagram, name='fetch_instagram'),
+    
      
 ]
 if settings.DEBUG:
